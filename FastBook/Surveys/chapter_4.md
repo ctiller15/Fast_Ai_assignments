@@ -49,10 +49,18 @@
 
 1. Are metrics generally calculated using the training set, or the validation set? Why?
 
-	
+	We calculate _metrics_ with the validation set so that we don't overfit, since the model was created to work on the training set.
 
 1. What is SGD?
+
+	Stochastic Gradient Descent. It is a way of optimizing for our learner.
+
 1. Why does SGD use mini-batches?
+
+	- We can't calculate it for the entire dataset since it would take too long, and we can't calculate it for a single item since we wouldn't get very much information, resulting in an imprecise gradient.
+
+	- We use mini-batches in order to compromise between those two extremes.
+
 1. What are the seven steps in SGD for machine learning?
 
 	- Initialize the weights.
@@ -76,28 +84,100 @@
 	A high learning rate can lead to loss getting worse instead of getting better.
 
 1. What is a "gradient"?
+
+	The change in the value of a function with respect to a change in a parameter.
+
 1. Do you need to know how to calculate gradients yourself?
 
 	No. Couldn't hurt though.
 
 1. Why can't we use accuracy as a loss function?
 
-	
+	-A small change in the value of a weight will often not change the accuracy much, or at all.
 
 1. Draw the sigmoid function. What is special about its shape?
+
+	- It is constrained between 0 and 1.
+	- It is always monotonically increasing.
+
 1. What is the difference between a loss function and a metric?
+
+	- A loss function is used to feed back into the optimization. It is the function that we will minimize via gradient descent.
+	- The metric judges the performance of our model. It is not used in our optimization process.
+
 1. What is the function to calculate new weights using a learning rate?
+
+	subtract `learning rate * gradient`
+
 1. What does the `DataLoader` class do?
+
+	It can take a python collection and turn it into an iterator over many batches.
+
 1. Write pseudocode showing the basic steps taken in each epoch for SGD.
+
+	for x, y, in loader:
+		calculate gradient
+
+		for each param:
+			subtract the gradient * learning rate.
+
 Create a function that, if passed two arguments `[1, 2, 3, 4]` and `abcd`, returns [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]. What is special about that output data structure?
+
+	zip(set1, set2)
+	- It creates a tuple of form (x, y).
+
 1. What does `view` do in PyTorch?
+
+	- It changes the shape of a tensor without changing its contents.
+
 1. What are the "bias" parameters in a neural network? Why do we need them?
+
+	The extra initialized params in a nn. If we didn't have them then our functions wouldn't be flexible enough.
+
 1. What does the `@` operator do in Python?
+	
+	it does matrix multiplication.
+
 1. What does the `backward` method do?
+
+	- it takes the derivative.
+
 1. Why do we have to zero the gradients?
+
+	backward actually adds the gradients to any that are currently stored.
+
 1. What information do we have to pass to `Learner`?
+
+	- DataLoaders
+	- the model
+	- The optimization function
+	- The loss function
+	- Any metrics to print.
+
 1. Show Python or pseudocode for the basic steps of a training loop.
+
+	for val in range(epochs):
+		params = init_params
+		preds = calculate_predictions(params)
+		loss = calculate_loss(preds)
+		grads = loss.backward()
+		new_params = params - lr * gradient
+
+	done()
+
+
 1. What is "ReLU"? Draw a plot of it for values from -2 to +2.
+
+	It is a "Rectified linear unit". 
+
 1. What is an "activation function"?
+
+	A nonlinearity in a neural network.
+
 1. What's the difference between F.relu and nn.ReLU?
+
+	They do the exact same thing.
+
 1. The universal approximation theorem shows that any function can be approximated as closely as needed using just one nonlinearity. So why do we normally use more?
+
+Performance. A model with more layers doesn't require as many parameters, and we can use smaller matrices with more layers to get better results than large matrices with few layers.
